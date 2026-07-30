@@ -1,0 +1,237 @@
+.pillar-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 28px;
+}
+
+.pillar-tab {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 12px 4px;
+  margin-right: 24px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.pillar-tab:hover {
+  color: var(--color-text);
+}
+
+.pillar-tab.is-active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+@media (max-width: 880px) {
+  .pillar-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .pillar-tab {
+    margin-right: 18px;
+  }
+}
+
+/* ---------- journal shared ---------- */
+
+.journal-tab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.sync-note {
+  font-size: 11px;
+}
+
+.journal-main-grid {
+  margin-bottom: 20px;
+}
+
+.journal-section {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 880px) {
+  .journal-tab-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ---------- equity curve chart ---------- */
+
+.equity-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.equity-chart-svg {
+  width: 100%;
+  height: 200px;
+  display: block;
+}
+
+.bar-positive {
+  fill: var(--color-positive-muted);
+}
+
+.bar-negative {
+  fill: var(--color-negative-muted);
+}
+
+.equity-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+}
+
+/* ---------- stats grid ---------- */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.stat-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.stat-value {
+  font-size: 22px;
+  color: var(--color-text);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- pnl grid ---------- */
+
+.pnl-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pnl-asset {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-tertiary);
+}
+
+.pnl-value {
+  font-size: 18px;
+}
+
+/* ---------- strategy list ---------- */
+
+.strategy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.strategy-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.strategy-version {
+  flex-shrink: 0;
+}
+
+.strategy-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.strategy-date {
+  font-size: 11px;
+}
+
+.strategy-notes {
+  font-size: 13.5px;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- market outlook ---------- */
+
+.outlook-narrative {
+  font-size: 14.5px;
+  color: var(--color-text-secondary);
+  max-width: 75ch;
+}
+
+.sector-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sector-name {
+  font-size: 13.5px;
+}
+
+/* ---------- trade ideas ---------- */
+
+.trade-ideas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.trade-idea-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.trade-idea-ticker {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.trade-idea-date {
+  margin-left: auto;
+  font-size: 11px;
+}
+
+.trade-idea-thesis {
+  font-size: 14.5px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.trade-idea-detail {
+  font-size: 13.5px;
+}

@@ -1,0 +1,115 @@
+.hero {
+  padding: 24px 0 48px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 40px;
+}
+
+.hero-title {
+  font-size: 46px;
+  margin: 14px 0 18px;
+}
+
+.hero-lede {
+  max-width: 68ch;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  margin-bottom: 26px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.home-section {
+  margin-bottom: 48px;
+}
+
+.home-section > .section-label {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.roles-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.roles-note {
+  font-size: 13.5px;
+  max-width: 60ch;
+}
+
+.skills-grid {
+  margin-top: 4px;
+}
+
+.skill-card-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--color-accent);
+  margin-bottom: 12px;
+}
+
+.skill-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.skill-card-list li {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  padding-left: 12px;
+  position: relative;
+}
+
+.skill-card-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  background: var(--color-text-tertiary);
+  border-radius: 50%;
+}
+
+.pillars-grid {
+  margin-top: 4px;
+}
+
+.pillar-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.pillar-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.pillar-num {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.pillar-title {
+  font-size: 16px;
+}
+
+.pillar-desc {
+  font-size: 13px;
+}
+
+@media (max-width: 880px) {
+  .hero-title {
+    font-size: 32px;
+  }
+}
