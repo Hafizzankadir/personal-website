@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { marked } from 'marked';
 import { getAllMarketOutlookEntries, publishMarketOutlook } from '../../../lib/content';
 import { isFirebaseConfigured } from '../../../lib/firebase';
 
@@ -10,6 +11,9 @@ export default function MarketOutlookAdmin() {
   const [period, setPeriod] = useState('weekly');
   const [narrative, setNarrative] = useState('');
   const [status, setStatus] = useState(null);
+  const [uploadError, setUploadError] = useState('');
+  const [uploadedFileName, setUploadedFileName] = useState('');
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     getAllMarketOutlookEntries().then((result) => {
@@ -17,6 +21,27 @@ export default function MarketOutlookAdmin() {
       setLoading(false);
     });
   }, []);
+
+  function handleFileSelect(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.md') && file.type !== 'text/markdown') {
+      setUploadError('Please upload a .md file.');
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setNarrative(String(reader.result ?? ''));
+      setUploadedFileName(file.name);
+      setUploadError('');
+    };
+    reader.onerror = () => setUploadError('Could not read that file — try again.');
+    reader.readAsText(file);
+    e.target.value = '';
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -39,6 +64,7 @@ export default function MarketOutlookAdmin() {
 
     setEntries((prev) => [draft, ...prev.filter((e2) => e2.period !== period)]);
     setNarrative('');
+    setUploadedFileName('');
   }
 
   return (
@@ -56,16 +82,42 @@ export default function MarketOutlookAdmin() {
               ))}
             </select>
           </div>
+
           <div className="field">
-            <label htmlFor="narrative">Narrative</label>
+            <label htmlFor="narrative">Narrative (Markdown supported)</label>
             <textarea
               id="narrative"
               value={narrative}
               onChange={(e) => setNarrative(e.target.value)}
-              placeholder="Write the outlook narrative…"
+              placeholder="Write the outlook narrative, or upload a .md file below…"
               required
             />
+            <div className="md-upload-row">
+              <button type="button" className="btn btn--outline" onClick={() => fileInputRef.current?.click()}>
+                Upload .md file
+              </button>
+              {uploadedFileName && <span className="text-tertiary md-upload-filename">{uploadedFileName}</span>}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".md,text/markdown"
+                onChange={handleFileSelect}
+                style={{ display: 'none' }}
+              />
+            </div>
+            {uploadError && <p className="admin-error" style={{ margin: '8px 0 0' }}>{uploadError}</p>}
           </div>
+
+          {narrative.trim() && (
+            <div className="field">
+              <label>Preview</label>
+              <div
+                className="md-preview outlook-narrative"
+                dangerouslySetInnerHTML={{ __html: marked.parse(narrative) }}
+              />
+            </div>
+          )}
+
           {status && (
             <p className={status.type === 'success' ? 'admin-success-note' : 'admin-demo-note'}>
               {status.message}

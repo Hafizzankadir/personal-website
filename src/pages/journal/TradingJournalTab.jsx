@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchTradingJournalData } from '../../lib/googleSheets';
+import { getSiteSettings } from '../../lib/content';
 import EquityCurveChart from './EquityCurveChart';
 
 const STAT_LABELS = {
@@ -17,19 +18,52 @@ function formatStat(key, value) {
   return value;
 }
 
+function HiddenPlaceholder() {
+  return (
+    <div className="tj-hidden">
+      <div className="tj-hidden-backdrop" aria-hidden="true">
+        <div className="tj-hidden-bars">
+          {[62, 40, 78, 52, 90, 34, 66, 48, 84, 58].map((h, i) => (
+            <span key={i} style={{ height: `${h}%` }} />
+          ))}
+        </div>
+        <div className="tj-hidden-lines">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+      <div className="tj-hidden-overlay">
+        <span className="tj-hidden-icon" aria-hidden="true">🔒</span>
+        <p className="tj-hidden-title">This Page is Hidden by Admin</p>
+        <p className="tj-hidden-subtitle">The trading journal is temporarily unavailable while it's being set up.</p>
+      </div>
+    </div>
+  );
+}
+
 export default function TradingJournalTab() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(true);
   const [asset, setAsset] = useState('Compilation');
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    fetchTradingJournalData().then((result) => {
-      if (!cancelled) {
-        setData(result);
+    getSiteSettings().then((settings) => {
+      if (cancelled) return;
+      if (settings?.tradingJournalVisible === false) {
+        setVisible(false);
         setLoading(false);
+        return;
       }
+      fetchTradingJournalData().then((result) => {
+        if (!cancelled) {
+          setData(result);
+          setLoading(false);
+        }
+      });
     });
     return () => {
       cancelled = true;
@@ -37,6 +71,7 @@ export default function TradingJournalTab() {
   }, []);
 
   if (loading) return <div className="loading-state">Loading trading journal…</div>;
+  if (!visible) return <HiddenPlaceholder />;
   if (!data) return <div className="empty-state">No trading journal data available.</div>;
 
   const stats = data.stats[asset] ?? data.stats.Compilation;

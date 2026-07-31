@@ -99,6 +99,99 @@
   color: var(--color-text-tertiary);
 }
 
+/* ---------- trading journal hidden placeholder ---------- */
+
+.tj-hidden {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-card);
+}
+
+.tj-hidden-backdrop {
+  position: absolute;
+  inset: 0;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  filter: blur(7px);
+  opacity: 0.6;
+  user-select: none;
+}
+
+.tj-hidden-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 160px;
+}
+
+.tj-hidden-bars span {
+  flex: 1;
+  background: var(--color-positive-muted);
+  border-radius: 2px 2px 0 0;
+}
+
+.tj-hidden-bars span:nth-child(3n) {
+  background: var(--color-negative-muted);
+}
+
+.tj-hidden-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tj-hidden-lines span {
+  display: block;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--color-border);
+}
+
+.tj-hidden-lines span:nth-child(1) { width: 70%; }
+.tj-hidden-lines span:nth-child(2) { width: 45%; }
+.tj-hidden-lines span:nth-child(3) { width: 60%; }
+
+.tj-hidden-overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  padding: 28px 32px;
+  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  max-width: 360px;
+}
+
+.tj-hidden-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.tj-hidden-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.tj-hidden-subtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
 /* ---------- stats grid ---------- */
 
 .stats-grid {
@@ -186,6 +279,70 @@
   font-size: 14.5px;
   color: var(--color-text-secondary);
   max-width: 75ch;
+}
+
+.outlook-narrative > *:first-child {
+  margin-top: 0;
+}
+
+.outlook-narrative > *:last-child {
+  margin-bottom: 0;
+}
+
+.outlook-narrative p {
+  margin: 0 0 14px;
+}
+
+.outlook-narrative h1,
+.outlook-narrative h2,
+.outlook-narrative h3 {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin: 20px 0 10px;
+}
+
+.outlook-narrative ul,
+.outlook-narrative ol {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.outlook-narrative ol {
+  list-style: decimal;
+}
+
+.outlook-narrative li {
+  margin-bottom: 6px;
+}
+
+.outlook-narrative strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.outlook-narrative a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.outlook-narrative blockquote {
+  margin: 0 0 14px;
+  padding-left: 14px;
+  border-left: 2px solid var(--color-accent);
+  color: var(--color-text-tertiary);
+}
+
+.outlook-narrative code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  padding: 1px 5px;
 }
 
 .sector-cell {

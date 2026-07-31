@@ -1,36 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getHomeContent } from '../lib/content';
 import './Home.css';
-
-const TARGET_ROLES = [
-  { title: 'Equity Research', primary: true },
-  { title: 'Investment Analyst', primary: true },
-  { title: 'Portfolio / Risk Analytics', primary: true },
-  { title: 'Quantitative / Data Roles', primary: false },
-  { title: 'Product & Data-Adjacent Tech', primary: false },
-];
-
-const SKILLS = [
-  {
-    category: 'Financial Modeling',
-    items: ['Three-statement modeling', 'DCF & comps valuation', 'Scenario / sensitivity analysis'],
-  },
-  {
-    category: 'Excel',
-    items: ['Advanced formulas & VBA', 'Dashboard design', 'Data automation'],
-  },
-  {
-    category: 'Power BI',
-    items: ['DAX measures', 'Live-connected dashboards', 'Data modeling'],
-  },
-  {
-    category: 'Python',
-    items: ['pandas / NumPy', 'Backtesting & quant research', 'API data pipelines'],
-  },
-  {
-    category: 'Web Development',
-    items: ['React / JavaScript', 'Firebase', 'Full-stack product builds'],
-  },
-];
 
 const PILLARS = [
   {
@@ -60,17 +31,30 @@ const PILLARS = [
 ];
 
 export default function Home() {
+  const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    getHomeContent().then((result) => {
+      if (!cancelled) {
+        setContent(result);
+        setLoading(false);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (loading || !content) return <div className="loading-state">Loading…</div>;
+
   return (
     <div className="page home-page">
       <section className="hero">
-        <span className="section-label section-label--accent">Trader / Analyst / Builder</span>
-        <h1 className="hero-title">Hafizzan Kadir</h1>
-        <p className="hero-lede">
-          I trade markets systematically, publish the results in full, and build the tools I use
-          to do it. This site is a transparent, public record — real name, real data, real track
-          record — built for the trading community and for recruiters evaluating investment and
-          analytics-focused roles.
-        </p>
+        <span className="section-label section-label--accent">{content.heroTagline}</span>
+        <h1 className="hero-title">{content.heroTitle}</h1>
+        <p className="hero-lede">{content.heroLede}</p>
         <div className="hero-actions">
           <Link to="/journal" className="btn">View Trading Journal</Link>
           <Link to="/projects" className="btn btn--outline">See Projects</Link>
@@ -80,22 +64,19 @@ export default function Home() {
       <section className="home-section">
         <span className="section-label">Target Roles</span>
         <div className="roles-row">
-          {TARGET_ROLES.map((role) => (
+          {content.targetRoles.map((role) => (
             <span key={role.title} className={role.primary ? 'tag tag--accent' : 'tag'}>
               {role.title}
             </span>
           ))}
         </div>
-        <p className="text-secondary roles-note">
-          Primarily seeking investment-focused roles — open to adjacent analytics, data, and
-          technical positions where the same skill set applies.
-        </p>
+        <p className="text-secondary roles-note">{content.rolesNote}</p>
       </section>
 
       <section className="home-section">
         <span className="section-label">Skill Categories</span>
         <div className="grid grid-5 skills-grid">
-          {SKILLS.map((skill) => (
+          {content.skills.map((skill) => (
             <div key={skill.category} className="card skill-card">
               <h3 className="skill-card-title">{skill.category}</h3>
               <ul className="skill-card-list">

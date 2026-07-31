@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 import { fetchTradingJournalData, isSheetsConfigured } from '../../../lib/googleSheets';
+import { getSiteSettings, saveSiteSettings } from '../../../lib/content';
+import { isFirebaseConfigured } from '../../../lib/firebase';
 
 export default function TradingJournalSync() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [visibilityStatus, setVisibilityStatus] = useState(null);
 
   async function load() {
     setLoading(true);
-    const result = await fetchTradingJournalData();
-    setData(result);
+    const [journal, settings] = await Promise.all([fetchTradingJournalData(), getSiteSettings()]);
+    setData(journal);
+    setVisible(settings?.tradingJournalVisible !== false);
     setLoading(false);
   }
 
@@ -23,6 +28,17 @@ export default function TradingJournalSync() {
     setRefreshing(false);
   }
 
+  async function handleToggleVisibility() {
+    const next = !visible;
+    setVisible(next);
+    try {
+      await saveSiteSettings({ tradingJournalVisible: next });
+      setVisibilityStatus({ type: 'success', message: 'Saved.' });
+    } catch {
+      setVisibilityStatus({ type: 'demo', message: 'Firebase not connected — change won\'t persist on reload.' });
+    }
+  }
+
   return (
     <div>
       <h1 className="admin-section-title">Trading Journal Sync</h1>
@@ -30,6 +46,39 @@ export default function TradingJournalSync() {
         Read-only status for the Google Sheets-backed trading journal. Data entry happens in the
         sheet itself — this panel only reflects sync state.
       </p>
+
+      <div className="card admin-form-card">
+        <div className="card-header">
+          <span className="section-label">Public Visibility</span>
+        </div>
+        <div className="visibility-toggle-row">
+          <div>
+            <p className="visibility-toggle-label">Show Trading Journal tab on the public site</p>
+            <p className="text-tertiary" style={{ fontSize: 12.5 }}>
+              When off, visitors see a blurred "This Page is Hidden by Admin" placeholder instead of the tab content.
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={visible}
+            className={'toggle-switch' + (visible ? ' is-on' : '')}
+            onClick={handleToggleVisibility}
+          >
+            <span className="toggle-switch-knob" />
+          </button>
+        </div>
+        {visibilityStatus && (
+          <p className={visibilityStatus.type === 'success' ? 'admin-success-note' : 'admin-demo-note'} style={{ marginTop: 12 }}>
+            {visibilityStatus.message}
+          </p>
+        )}
+        {!isFirebaseConfigured && (
+          <p className="text-tertiary" style={{ fontSize: 12.5, marginTop: 12 }}>
+            Connect Firebase to persist this setting across page reloads.
+          </p>
+        )}
+      </div>
 
       <div className="card admin-form-card">
         <div className="card-header">

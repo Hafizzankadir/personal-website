@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { marked } from 'marked';
 import { getMarketOutlook } from '../../lib/content';
 
 const PERIODS = ['weekly', 'monthly', 'quarterly', 'yearly'];
@@ -57,7 +58,10 @@ export default function MarketOutlookTab() {
               <span className="section-label">Narrative</span>
               <span className="text-mono text-tertiary">Updated {entry.updatedAt}</span>
             </div>
-            <p className="outlook-narrative">{entry.narrative}</p>
+            <div
+              className="outlook-narrative"
+              dangerouslySetInnerHTML={{ __html: marked.parse(entry.narrative) }}
+            />
           </div>
 
           <div className="card journal-section">

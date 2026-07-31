@@ -1,10 +1,12 @@
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   addDoc,
   setDoc,
   updateDoc,
+  deleteDoc,
   query,
   orderBy,
   limit as fsLimit,
@@ -16,6 +18,8 @@ import {
   mockPhilosophy,
   mockKnowledgeHub,
   mockProjects,
+  mockSiteSettings,
+  mockHomeContent,
 } from './mockData';
 
 // Thin Firestore data-access layer. Every read gracefully falls back to
@@ -35,6 +39,18 @@ async function safeGetCollection(name, orderField) {
   } catch (err) {
     console.warn(`[content] falling back to mock data for "${name}":`, err.message);
     return null;
+  }
+}
+
+async function safeGetDoc(path, id, fallback) {
+  if (!isFirebaseConfigured) return fallback;
+  try {
+    const snap = await getDoc(doc(db, path, id));
+    if (!snap.exists()) return fallback;
+    return { id: snap.id, ...snap.data() };
+  } catch (err) {
+    console.warn(`[content] falling back to mock data for "${path}/${id}":`, err.message);
+    return fallback;
   }
 }
 
@@ -119,4 +135,42 @@ export async function addKnowledgeHubEntry(entry) {
 export async function getProjects() {
   const docs = await safeGetCollection('projects');
   return docs ?? mockProjects;
+}
+
+export async function addProject(project) {
+  if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
+  const ref = await addDoc(collection(db, 'projects'), project);
+  return ref.id;
+}
+
+export async function updateProject(id, updates) {
+  if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
+  await updateDoc(doc(db, 'projects', id), updates);
+}
+
+export async function deleteProject(id) {
+  if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
+  await deleteDoc(doc(db, 'projects', id));
+}
+
+// ---------- Site Settings ----------
+
+export async function getSiteSettings() {
+  return safeGetDoc('settings', 'site', mockSiteSettings);
+}
+
+export async function saveSiteSettings(updates) {
+  if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
+  await setDoc(doc(db, 'settings', 'site'), updates, { merge: true });
+}
+
+// ---------- Home Content ----------
+
+export async function getHomeContent() {
+  return safeGetDoc('homeContent', 'main', mockHomeContent);
+}
+
+export async function saveHomeContent(data) {
+  if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
+  await setDoc(doc(db, 'homeContent', 'main'), data, { merge: true });
 }

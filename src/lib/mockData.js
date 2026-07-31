@@ -219,6 +219,52 @@ export const mockProjects = [
   },
 ];
 
+export const mockSiteSettings = {
+  tradingJournalVisible: true,
+};
+
+export const mockHomeContent = {
+  heroTagline: 'Trader / Analyst / Builder',
+  heroTitle: 'Hafizzan Kadir',
+  heroLede:
+    'I trade markets systematically, publish the results in full, and build the tools I use ' +
+    'to do it. This site is a transparent, public record — real name, real data, real track ' +
+    'record — built for the trading community and for recruiters evaluating investment and ' +
+    'analytics-focused roles.',
+  targetRoles: [
+    { title: 'Equity Research', primary: true },
+    { title: 'Investment Analyst', primary: true },
+    { title: 'Portfolio / Risk Analytics', primary: true },
+    { title: 'Quantitative / Data Roles', primary: false },
+    { title: 'Product & Data-Adjacent Tech', primary: false },
+  ],
+  rolesNote:
+    'Primarily seeking investment-focused roles — open to adjacent analytics, data, and ' +
+    'technical positions where the same skill set applies.',
+  skills: [
+    {
+      category: 'Financial Modeling',
+      items: ['Three-statement modeling', 'DCF & comps valuation', 'Scenario / sensitivity analysis'],
+    },
+    {
+      category: 'Excel',
+      items: ['Advanced formulas & VBA', 'Dashboard design', 'Data automation'],
+    },
+    {
+      category: 'Power BI',
+      items: ['DAX measures', 'Live-connected dashboards', 'Data modeling'],
+    },
+    {
+      category: 'Python',
+      items: ['pandas / NumPy', 'Backtesting & quant research', 'API data pipelines'],
+    },
+    {
+      category: 'Web Development',
+      items: ['React / JavaScript', 'Firebase', 'Full-stack product builds'],
+    },
+  ],
+};
+
 const ASSET_CLASSES = ['Compilation', 'Futures', 'Stocks', 'CFDs', 'Crypto'];
 
 function buildEquityCurve(seed, points = 24) {
