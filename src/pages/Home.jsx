@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getHomeContent } from '../lib/content';
+import headshot from '../assets/Headshot.jpg';
 import './Home.css';
 
 const PILLARS = [
@@ -52,12 +53,17 @@ export default function Home() {
   return (
     <div className="page home-page">
       <section className="hero">
-        <span className="section-label section-label--accent">{content.heroTagline}</span>
-        <h1 className="hero-title">{content.heroTitle}</h1>
-        <p className="hero-lede">{content.heroLede}</p>
-        <div className="hero-actions">
-          <Link to="/journal" className="btn">View Trading Journal</Link>
-          <Link to="/projects" className="btn btn--outline">See Projects</Link>
+        <div className="hero-copy">
+          <span className="section-label section-label--accent">{content.heroTagline}</span>
+          <h1 className="hero-title">{content.heroTitle}</h1>
+          <p className="hero-lede">{content.heroLede}</p>
+          <div className="hero-actions">
+            <Link to="/journal" className="btn">View Trading Journal</Link>
+            <Link to="/projects" className="btn btn--outline">See Projects</Link>
+          </div>
+        </div>
+        <div className="hero-portrait">
+          <img src={headshot} alt={content.heroTitle} />
         </div>
       </section>
 
