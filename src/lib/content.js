@@ -70,6 +70,12 @@ export async function getAllMarketOutlookEntries() {
   return docs ?? Object.values(mockMarketOutlook);
 }
 
+export async function getMarketOutlookEntryById(id) {
+  const found = await safeGetDoc('marketOutlook', id, null);
+  if (found) return found;
+  return Object.values(mockMarketOutlook).find((entry) => entry.id === id) ?? null;
+}
+
 export async function publishMarketOutlook(entry) {
   if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
   const ref = await addDoc(collection(db, 'marketOutlook'), {

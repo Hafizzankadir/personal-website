@@ -5,9 +5,8 @@ import './SiteNav.css';
 const NAV_LINKS = [
   { num: 1, label: 'Home', path: '/' },
   { num: 2, label: 'Market Journal', path: '/journal' },
-  { num: 3, label: 'Philosophy', path: '/philosophy' },
-  { num: 4, label: 'Knowledge Hub', path: '/knowledge' },
-  { num: 5, label: 'Projects', path: '/projects' },
+  { num: 3, label: 'Ideas', path: '/ideas' },
+  { num: 4, label: 'Projects', path: '/projects' },
 ];
 
 const TICKER_ITEMS = [

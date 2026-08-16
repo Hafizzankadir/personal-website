@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { marked } from 'marked';
-import { getMarketOutlook } from '../../lib/content';
+import { getMarketOutlook, getMarketOutlookEntryById } from '../../lib/content';
+import CopyLinkButton from '../../components/CopyLinkButton';
 
 const PERIODS = ['weekly', 'monthly', 'quarterly', 'yearly'];
 
@@ -17,6 +19,8 @@ function viewTagClass(view) {
 }
 
 export default function MarketOutlookTab() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sharedId = searchParams.get('id');
   const [period, setPeriod] = useState('weekly');
   const [entry, setEntry] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,23 +28,37 @@ export default function MarketOutlookTab() {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    getMarketOutlook(period).then((result) => {
-      if (!cancelled) {
-        setEntry(result);
-        setLoading(false);
-      }
+    const load = sharedId ? getMarketOutlookEntryById(sharedId) : getMarketOutlook(period);
+    load.then((result) => {
+      if (cancelled) return;
+      setEntry(result);
+      if (result?.period) setPeriod(result.period);
+      setLoading(false);
     });
     return () => {
       cancelled = true;
     };
-  }, [period]);
+  }, [period, sharedId]);
+
+  function handlePeriodClick(p) {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete('id');
+      return next;
+    });
+    setPeriod(p);
+  }
+
+  const shareUrl = entry
+    ? `${window.location.origin}${window.location.pathname}?tab=market-outlook&id=${entry.id}`
+    : '';
 
   return (
     <div className="journal-tab">
       <div className="journal-tab-header">
         <div className="toggle-group">
           {PERIODS.map((p) => (
-            <button key={p} className={p === period ? 'is-active' : ''} onClick={() => setPeriod(p)}>
+            <button key={p} className={p === period ? 'is-active' : ''} onClick={() => handlePeriodClick(p)}>
               {p}
             </button>
           ))}
@@ -53,10 +71,13 @@ export default function MarketOutlookTab() {
 
       {!loading && entry && (
         <>
-          <div className="card journal-section">
+          <div className={'card journal-section' + (sharedId === entry.id ? ' shared-highlight' : '')}>
             <div className="card-header">
               <span className="section-label">Narrative</span>
-              <span className="text-mono text-tertiary">Updated {entry.updatedAt}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span className="text-mono text-tertiary">Updated {entry.updatedAt}</span>
+                <CopyLinkButton url={shareUrl} />
+              </div>
             </div>
             <div
               className="outlook-narrative"

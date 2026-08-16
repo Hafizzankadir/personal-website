@@ -364,6 +364,33 @@ img {
   background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
 }
 
+/* ---------- copy link ---------- */
+
+.copy-link-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.copy-link-btn:hover {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 35%, var(--color-border));
+}
+
+.shared-highlight {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
 /* ---------- misc utility ---------- */
 
 .text-mono { font-family: var(--font-mono); }

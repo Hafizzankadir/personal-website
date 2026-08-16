@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import TradingJournalTab from './journal/TradingJournalTab';
 import MarketOutlookTab from './journal/MarketOutlookTab';
 import TradeIdeasTab from './journal/TradeIdeasTab';
@@ -10,8 +10,21 @@ const TABS = [
   { id: 'trade-ideas', label: 'Trade Ideas' },
 ];
 
+const VALID_TABS = TABS.map((t) => t.id);
+
 export default function FinancialMarketJournal() {
-  const [tab, setTab] = useState('trading-journal');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  const tab = VALID_TABS.includes(tabParam) ? tabParam : 'trading-journal';
+
+  function setTab(nextTab) {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('tab', nextTab);
+      next.delete('id');
+      return next;
+    });
+  }
 
   return (
     <div className="page">

@@ -13,18 +13,12 @@ const PILLARS = [
   },
   {
     num: '03',
-    title: 'Philosophy',
-    description: 'The systems-thinking framework behind every market and life decision.',
-    path: '/philosophy',
+    title: 'Ideas',
+    description: 'The philosophy behind every decision, and a running log of what I\'m studying.',
+    path: '/ideas',
   },
   {
     num: '04',
-    title: 'Knowledge Hub',
-    description: 'A running log of books, concepts, and ideas being studied and applied.',
-    path: '/knowledge',
-  },
-  {
-    num: '05',
     title: 'Projects',
     description: 'Tools and systems built — from backtesting engines to this site itself.',
     path: '/projects',
@@ -97,7 +91,7 @@ export default function Home() {
 
       <section className="home-section">
         <span className="section-label">Explore</span>
-        <div className="grid grid-4 pillars-grid">
+        <div className="grid grid-3 pillars-grid">
           {PILLARS.map((pillar) => (
             <Link key={pillar.path} to={pillar.path} className="card pillar-card">
               <span className="pillar-num text-mono">{pillar.num}</span>
