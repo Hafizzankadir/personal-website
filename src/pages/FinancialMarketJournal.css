@@ -392,3 +392,19 @@
 .trade-idea-detail {
   font-size: 13.5px;
 }
+
+.trade-idea-chart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--color-accent);
+}
+
+.trade-idea-chart-link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}

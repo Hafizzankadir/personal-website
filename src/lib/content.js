@@ -130,6 +130,16 @@ export async function addKnowledgeHubEntry(entry) {
   return ref.id;
 }
 
+export async function updateKnowledgeHubEntry(id, updates) {
+  if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
+  await updateDoc(doc(db, 'knowledgeHub', id), updates);
+}
+
+export async function deleteKnowledgeHubEntry(id) {
+  if (!isFirebaseConfigured) throw new Error('Firebase is not configured yet.');
+  await deleteDoc(doc(db, 'knowledgeHub', id));
+}
+
 // ---------- Projects ----------
 
 export async function getProjects() {

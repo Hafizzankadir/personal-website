@@ -8,7 +8,7 @@ const STATUS_OPTIONS = [
   { value: 'closed-loss', label: 'Closed — Loss' },
 ];
 
-const EMPTY_FORM = { ticker: '', date: '', thesis: '', detail: '', status: 'active' };
+const EMPTY_FORM = { ticker: '', date: '', thesis: '', detail: '', status: 'active', chartUrl: '' };
 
 export default function TradeIdeasAdmin() {
   const [ideas, setIdeas] = useState([]);
@@ -73,6 +73,15 @@ export default function TradeIdeasAdmin() {
           <div className="field">
             <label htmlFor="detail">Detail</label>
             <textarea id="detail" value={form.detail} onChange={(e) => setForm({ ...form, detail: e.target.value })} />
+          </div>
+          <div className="field">
+            <label htmlFor="chartUrl">Chart URL (optional)</label>
+            <input
+              id="chartUrl"
+              value={form.chartUrl}
+              onChange={(e) => setForm({ ...form, chartUrl: e.target.value })}
+              placeholder="https://www.tradingview.com/chart/…"
+            />
           </div>
           <div className="field">
             <label htmlFor="status">Status</label>

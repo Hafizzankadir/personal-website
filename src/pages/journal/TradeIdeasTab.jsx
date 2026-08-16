@@ -41,6 +41,11 @@ export default function TradeIdeasTab() {
               </div>
               <p className="trade-idea-thesis">{idea.thesis}</p>
               <p className="text-secondary trade-idea-detail">{idea.detail}</p>
+              {idea.chartUrl && (
+                <a href={idea.chartUrl} target="_blank" rel="noreferrer" className="trade-idea-chart-link">
+                  View Chart →
+                </a>
+              )}
             </div>
           );
         })}

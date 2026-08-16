@@ -58,7 +58,7 @@ export default function Home() {
           <h1 className="hero-title">{content.heroTitle}</h1>
           <p className="hero-lede">{content.heroLede}</p>
           <div className="hero-actions">
-            <Link to="/journal" className="btn">View Trading Journal</Link>
+            <a href={content.resumeUrl || '#'} target="_blank" rel="noreferrer" className="btn">View Resume</a>
             <Link to="/projects" className="btn btn--outline">See Projects</Link>
           </div>
         </div>

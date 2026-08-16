@@ -72,6 +72,7 @@ export const mockTradeIdeas = [
     detail:
       'Channel checks point to supply constraints easing in H2, with hyperscaler capex guidance trending up across the last three earnings calls. Entry scaled on pullbacks toward the 50-day.',
     status: 'active',
+    chartUrl: 'https://www.tradingview.com/chart/?symbol=NASDAQ:NVDA',
   },
   {
     id: 'ti-2',
@@ -81,6 +82,7 @@ export const mockTradeIdeas = [
     detail:
       'Took profit after a 14% move as crack spreads normalized faster than expected. Thesis played out within the projected 6-8 week window.',
     status: 'closed-profit',
+    chartUrl: 'https://www.tradingview.com/chart/?symbol=NYSE:XOM',
   },
   {
     id: 'ti-3',
@@ -231,6 +233,7 @@ export const mockHomeContent = {
     'to do it. This site is a transparent, public record — real name, real data, real track ' +
     'record — built for the trading community and for recruiters evaluating investment and ' +
     'analytics-focused roles.',
+  resumeUrl: '',
   targetRoles: [
     { title: 'Equity Research', primary: true },
     { title: 'Investment Analyst', primary: true },

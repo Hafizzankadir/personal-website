@@ -7,6 +7,7 @@ export default function HomeAdmin() {
   const [heroTagline, setHeroTagline] = useState('');
   const [heroTitle, setHeroTitle] = useState('');
   const [heroLede, setHeroLede] = useState('');
+  const [resumeUrl, setResumeUrl] = useState('');
   const [targetRoles, setTargetRoles] = useState([]);
   const [rolesNote, setRolesNote] = useState('');
   const [skills, setSkills] = useState([]);
@@ -17,6 +18,7 @@ export default function HomeAdmin() {
       setHeroTagline(result.heroTagline ?? '');
       setHeroTitle(result.heroTitle ?? '');
       setHeroLede(result.heroLede ?? '');
+      setResumeUrl(result.resumeUrl ?? '');
       setTargetRoles(result.targetRoles ?? []);
       setRolesNote(result.rolesNote ?? '');
       setSkills((result.skills ?? []).map((s) => ({ ...s, itemsText: s.items.join('\n') })));
@@ -54,6 +56,7 @@ export default function HomeAdmin() {
       heroTagline,
       heroTitle,
       heroLede,
+      resumeUrl,
       targetRoles,
       rolesNote,
       skills: skills.map((s) => ({
@@ -90,6 +93,17 @@ export default function HomeAdmin() {
           <div className="field">
             <label>Lede</label>
             <textarea value={heroLede} onChange={(e) => setHeroLede(e.target.value)} />
+          </div>
+          <div className="field">
+            <label>Resume URL</label>
+            <input
+              value={resumeUrl}
+              onChange={(e) => setResumeUrl(e.target.value)}
+              placeholder="https://…"
+            />
+            <p className="text-tertiary" style={{ fontSize: 12, marginTop: 2 }}>
+              Powers the "View Resume" button on the home page — link to a hosted PDF (Google Drive, Dropbox, etc.).
+            </p>
           </div>
         </div>
 

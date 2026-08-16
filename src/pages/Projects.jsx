@@ -23,10 +23,7 @@ export default function Projects() {
     <div className="page">
       <div className="page-header">
         <span className="section-label section-label--accent">Pillar 05</span>
-        <h1 className="page-title">Projects &amp; Tools</h1>
-        <p className="page-subtitle">
-          Tools and systems built to support the trading process — including this site.
-        </p>
+        <h1 className="page-title">Featured Project</h1>
       </div>
 
       {loading && <div className="loading-state">Loading projects…</div>}
